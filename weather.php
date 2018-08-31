@@ -1,6 +1,8 @@
 <?php
   require('config.php');
 
+  date_default_timezone_set("Asia/Karachi");
+
   if (isset($_GET) && !empty($_GET))
     $city = $_GET['city'];
     $current = $_GET['current'];
