@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Weather</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-select/2.4.0/vue-select.js"></script>
+  <script src="pace/pace.min.js"></script>
+  <link rel="stylesheet" href="pace/themes/red/pace-theme-minimal.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <style>
+    .weather-app {
+      width: 40%;
+      float: left;
+      margin-right: 10px;
+    }
+    .weather-details p {
+      margin: 0;
+    }
+    .weather-window {
+      float: left;
+      background: #c6e7f5;
+      padding: 10px;
+      border-radius: 5px;
+      width: fit-content;
+      min-width: 100px;
+      min-height: 145px;
+      box-shadow: inset 0 0 15px blue;
+      text-align: center;
+      margin-right: 10px;
+    }
+    .weather-window small {
+      display: block;
+    }
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+    .forecast .weather-window {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="app">
+      <h1>Weather Report</h1>
+      <p>You can compare weather between two cities or just check weather for a city.</p>
+      <p>Select cities to compare weather</p>
+      <div class="row">
+        <weather-component :cities="cities"></weather-component>
+        <weather-component :cities="cities"></weather-component>
+      </div>
+      <hr>
+      <h2>Forecast</h2>
+      <p>Check weather forecast for coming 5 days for your city.</p>
+      <forecast-component :cities="cities"></forecast-component>
+    </div>
+  </div>
+
+  <template id="weather-template">
+    <div class="col-sm-4 col-md-6">
+      <p><v-select :options="cities" v-model="weather.city" label="label"></v-select></p>
+      <button @click.prevent="getReport" class="btn btn-primary" :disabled="loading">Get Report</button>
+      <img src="giphy.gif" v-if="loading" width="30" height="30">
+      <transition name="fade">
+        <div v-if="show">
+          <hr>
+          <h3>Current Weather Detail for {{ weather.report.name }}</h3>
+          <div class="weather-details">
+            <div class="weather-window">
+              <img :src="weather.icon">
+              <strong><small>{{ weather.report.name }}</small></strong>
+              <small>{{ getTemp(weather.report.main.temp) }} &#8451;</small>
+              <small v-for="weather in weather.report.weather">{{ weather.main }}</small>
+            </div>
+            <div class="details">
+              <p><strong>Updated on: </strong> {{ weather.report.dt }}</p>
+              <p v-if="weather.report.visibility"><strong>Visibility: </strong> {{ weather.report.visibility | in_km }}</p>
+              <p><strong>Humidity: </strong>{{ weather.report.main.humidity }}%</p>
+              <p><strong>Clouds: </strong>{{ weather.report.clouds.all }}%</p>
+              <p><strong>Sun Rise: </strong>{{ weather.report.sys.sunrise }}</p>
+              <p><strong>Sun Set: </strong>{{ weather.report.sys.sunset }}</p>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+  </template>
+  <template id="forecast-template">
+    <div>
+      <p><v-select :options="cities" v-model="city"></v-select></p>
+      <button @click.prevent="getReport" class="btn btn-primary" :disabled="loading">Get Report</button>
+      <img src="giphy.gif" v-if="loading" width="30" height="30">
+      <hr>
+      <div class="row forecast" v-if="show">
+        <div class="col-lg-2" v-for="weather_report in report.list">
+          <div class="weather-details">
+            <div class="weather-window">
+              <img :src="getIcon(weather_report)">
+              <strong><small>{{ weather_report.name }}</small></strong>
+              <small>{{ getTemp(weather_report.main.temp) }} &#8451;</small>
+              <small v-for="weather in weather_report.weather">{{ weather.main }} <span v-if="weather.rain">{{ weather.rain }}mm</span></small>
+              <small>{{ weather_report.dt | get_time }}</small>
+              <small><strong>{{ weather_report.dt | get_date }}</strong></small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script type="text/javascript" src="weather.js"></script>
+</body>
+</html>
