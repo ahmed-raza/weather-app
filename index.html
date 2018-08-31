@@ -81,7 +81,7 @@
               <small v-for="weather in weather.report.weather">{{ weather.main }}</small>
             </div>
             <div class="details">
-              <p><strong>Updated on: </strong> {{ weather.report.dt }}</p>
+              <p><strong>Last Updated: </strong> {{ weather.report.dt }}</p>
               <p v-if="weather.report.visibility"><strong>Visibility: </strong> {{ weather.report.visibility | in_km }}</p>
               <p><strong>Humidity: </strong>{{ weather.report.main.humidity }}%</p>
               <p><strong>Clouds: </strong>{{ weather.report.clouds.all }}%</p>
