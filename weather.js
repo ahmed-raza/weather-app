@@ -11,6 +11,9 @@ Vue.component('forecast-component', {
       icon: null
     }
   },
+  created: function() {
+    this.getReport();
+  },
   filters: {
     in_km: function(meters) {
       return Math.round(meters / 1000) + " KM";
@@ -60,7 +63,6 @@ Vue.component('forecast-component', {
         this.loading = true;
         this.$http.get('weather.php?city='+this.city+'&current=false').then(response => {
           this.report = response.body;
-          console.log(this.report.list);
           this.show = true;
           this.loading = false;
         });
