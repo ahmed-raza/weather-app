@@ -1,0 +1,62 @@
+body {
+  background: url('weather.jpg') no-repeat;
+  background-size: cover;
+  color: white;
+}
+.v-select .dropdown-toggle {
+  border: 1px solid rgba(255,255,255,255) !important;
+}
+.v-select.single .selected-tag,
+.v-select input[type=search] {
+  color: white;
+}
+.v-select .dropdown-toggle .clear {
+  color: white !important;
+  bottom: 7px !important;
+}
+.v-select .open-indicator:before {
+  border-color: rgba(255,255,255,255) !important;
+}
+.weather-app {
+  width: 40%;
+  float: left;
+  margin-right: 10px;
+}
+.weather-details p {
+  margin: 0;
+}
+.weather-window {
+  float: left;
+  background-image: linear-gradient(white, lightblue, lightblue);
+  padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  min-width: 100px;
+  min-height: 145px;
+  box-shadow: 0 0 20px black;
+  text-align: center;
+  margin-right: 10px;
+  color: #143c96;
+}
+.weather-window small {
+  display: block;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.forecast .weather-window {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.loader {
+  border-radius: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .city-selector {
+    margin-bottom: 10px;
+  }
+}
